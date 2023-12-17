@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('khoiphucmatkhau', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
+        Schema::create('loaisanpham', function (Blueprint $table) {
+            $table->id();
+            $table->string('tenloai');
+            $table->string('tenloai_slug');
+            $table->timestamps();
             $table->engine = 'InnoDB';
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('khoiphucmatkhau');
+        Schema::dropIfExists('loaisanpham');
     }
 };

@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nguoidung', function (Blueprint $table) {
+        Schema::create('donhang', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('username')->default();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('role')->default('Khách hàng');
-            $table->rememberToken();
+
+            $table->foreignId('tinhtrang_id')->constrained('tinhtrang');
+            $table->foreignId('nguoidung_id')->constrained('nguoidung');
+            $table->string('dienthoaigiaohang', 20);
+            $table->string('diachigiaohang');
             $table->timestamps();
             $table->engine = 'InnoDB';
         });
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nguoidung');
+        Schema::dropIfExists('donhang');
     }
 };
