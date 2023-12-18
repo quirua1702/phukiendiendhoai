@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nguoidung', function (Blueprint $table) {
+        Schema::create('loaisanpham', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('username')->unique();
-            $table->string('email')->unique();            
-            $table->string('role')->default('user');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('tenloai');
+            $table->string('tenloai_slug');
             $table->timestamps();
             $table->engine = 'InnoDB';
         });
@@ -30,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nguoidung');
+        Schema::dropIfExists('loaisanpham');
     }
 };

@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nguoidung', function (Blueprint $table) {
+        Schema::create('binhluanbaiviet', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('username')->unique();
-            $table->string('email')->unique();            
-            $table->string('role')->default('user');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->foreignId('baiviet_id')->constrained('baiviet');
+            $table->foreignId('nguoidung_id')->constrained('nguoidung');
+            $table->text('noidungbinhluan');
+            $table->unsignedTinyInteger('kiemduyet')->default(0);
+            $table->unsignedTinyInteger('kichhoat')->default(1);
             $table->timestamps();
             $table->engine = 'InnoDB';
         });
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nguoidung');
+        Schema::dropIfExists('binhluanbaiviet');
     }
 };
