@@ -3,63 +3,66 @@
 namespace App\Http\Controllers;
 
 use App\Models\DonHang;
+use App\Models\DonHang_ChiTiet;
+use App\Models\TinhTrang;
 use Illuminate\Http\Request;
 
 class DonHangController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    /*
+    public function __construct()
     {
-        //
+        $this->middleware('auth');
+    }
+    */
+
+    public function getDanhSach()
+    {
+        $donhang = DonHang::orderBy('created_at', 'desc')->get();
+        return view('admin.donhang.danhsach', compact('donhang'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function getThem()
     {
-        //
+    // Đặt hàng bên Front-end
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function postThem(Request $request)
     {
-        //
+    // Xử lý đặt hàng bên Front-end
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(DonHang $donHang)
+    public function getSua($id)
     {
-        //
+        $donhang = DonHang::find($id);
+        $tinhtrang = TinhTrang::all();
+        return view('admin.donhang.sua', compact('donhang', 'tinhtrang'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(DonHang $donHang)
+    public function postSua(Request $request, $id)
     {
-        //
-    }
+        $this->validate($request, [
+            'tinhtrang_id' => ['required'],
+            'dienthoaigiaohang' => ['required', 'string', 'max:20'],
+            'diachigiaohang' => ['required', 'string', 'max:191'],
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, DonHang $donHang)
-    {
-        //
+        $orm = DonHang::find($id);
+        $orm->tinhtrang_id = $request->tinhtrang_id;
+        $orm->dienthoaigiaohang = $request->dienthoaigiaohang;
+        $orm->diachigiaohang = $request->diachigiaohang;
+        $orm->save();
+        
+        return redirect()->route('admin.donhang');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(DonHang $donHang)
+    public function getXoa($id)
     {
-        //
+        $orm = DonHang::find($id);
+        $orm->delete();
+
+        $chitiet = DonHang_ChiTiet::where('donhang_id', $orm->id)->first();
+        $chitiet->delete();
+
+        return redirect()->route('admin.donhang');
     }
 }
