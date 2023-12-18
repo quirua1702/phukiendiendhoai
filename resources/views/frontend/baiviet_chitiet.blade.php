@@ -1,136 +1,114 @@
 @extends('layouts.frontend')
-
-@section('title', $baiviet->tieude)
-
-@section('content')
-	<div class="bg-secondary py-4">
-		<div class="container d-lg-flex justify-content-between py-2 py-lg-3">
-			<div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
-				<nav aria-label="breadcrumb">
-					<ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start">
-						<li class="breadcrumb-item">
-							<a class="text-nowrap" href="{{ route('frontend.home') }}"><i class="ci-home"></i>Trang chủ</a>
-						</li>
-						<li class="breadcrumb-item text-nowrap">
-							<a href="{{ route('frontend.baiviet') }}">Tin tức</a>
-						</li>
-						<li class="breadcrumb-item text-nowrap active" aria-current="page">Chi tiết</li>
-					</ol>
-				</nav>
-			</div>
-			<div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-				<h1 class="h3 mb-0">{{ $baiviet->tieude }}</h1>
+@section('title', 'Bài viết')
+@section('content')	
+		
+		<div class="bg-secondary py-4">
+			<div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+				<div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start">
+							<li class="breadcrumb-item">
+								<a class="text-nowrap" href="#"><i class="ci-home"></i>Trang chủ</a>
+							</li>
+							<li class="breadcrumb-item text-nowrap active" aria-current="page">Tin tức</li>
+						</ol>
+					</nav>
+				</div>
+				<div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+					<h1 class="h3 mb-0">Tin tức</h1>
+				</div>
 			</div>
 		</div>
-	</div>
-
-	<div class="container pb-5">
-		<div class="row justify-content-center pt-3 mt-md-3">
-			<div class="col-12">
-				<div class="d-flex flex-wrap justify-content-between align-items-center pb-4 mt-n1">
-					<div class="d-flex align-items-center fs-sm mb-2">
-						<a class="blog-entry-meta-link" href="#">
-							<div class="blog-entry-author-ava"><img src="{{ asset('public/img/03.jpg') }}" /></div>
-							{{ $baiviet->NguoiDung->name }}
-						</a>
-						<span class="blog-entry-meta-divider"></span>
-						<a class="blog-entry-meta-link" href="#date">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $baiviet->created_at)->format('d/m/Y') }}</a>
-					</div>
-					<div class="fs-sm mb-2">
-						<a class="blog-entry-meta-link text-nowrap" href="#view" data-scroll><i class="ci-eye"></i>{{ $baiviet->luotxem }}</a>
-					</div>
-				</div>
-
-				<p style="text-align:justify" class="fw-bold">{{ $baiviet->tomtat }}</p>
-				<p style="text-align:justify">{!! $baiviet->noidung !!}</p>
-
-				<div class="d-flex flex-wrap justify-content-between pt-2 pb-4 mb-1">
-					<div class="mt-3 me-3">
-						<a class="btn-tag mb-2" href="#">#{{ $baiviet->ChuDe->tenchude_slug }}</a>
-					</div>
-					<div class="mt-3">
-						<span class="d-inline-block align-middle text-muted fs-sm me-3 mt-1 mb-2">Chia sẻ:</span>
-						<a class="btn-social bs-facebook me-2 mb-2" href="#facebook"><i class="ci-facebook"></i></a>
-						<a class="btn-social bs-twitter me-2 mb-2" href="#twitter"><i class="ci-twitter"></i></a>
-						<a class="btn-social bs-pinterest me-2 mb-2" href="#pinterest"><i class="ci-pinterest"></i></a>
-					</div>
-					<!-- Comments-->
-					<div class="pt-2 mt-5" id="comments">
-					<h2 class="h4">Bình luận<span class="badge bg-secondary fs-sm text-body align-middle ms-2">{{ $baiviet->BinhLuanBaiViet->count() }}</span></h2>
-						@foreach($baiviet->BinhLuanBaiViet as $value)
-							<div class="d-flex align-items-start py-4">
-								<img class="rounded-circle" src="{{ asset('public/img/03.jpg') }}" width="50" />
-								<div class="ps-3">
-									<div class="d-flex justify-content-between align-items-center mb-2">
-										<h6 class="fs-md mb-0">{{ $value->NguoiDung->name }}</h6>
-									</div>
-									<p class="fs-md mb-1" style="text-align:justify">{{ $value->noidungbinhluan }}</p>
-									<span class="fs-ms text-muted"><i class="ci-time align-middle me-2"></i>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $value->created_at)->format('d/m/Y') }}</span>
-								</div>
-							</div>
-						@endforeach
-						<div class="card border-0 shadow mt-2 mb-4">
+		
+		<div class="container pb-5 mb-2 mb-md-4">
+			<div class="pt-3 mt-md-3">
+				<div class="masonry-grid" data-columns="3">
+					<article class="masonry-grid-item">
+						<div class="card">
+							<a class="blog-entry-thumb" href="#">
+								<img class="card-img-top" src="img/02.jpg" />
+							</a>
 							<div class="card-body">
-								<div class="d-flex align-items-start">
-									<img class="rounded-circle" src="{{ asset('public/img/03.jpg') }}" width="50" />
-									<form class="w-100 needs-validation ms-3" novalidate>
-										<div class="mb-3">
-											<textarea class="form-control" rows="3" placeholder="Chia sẻ ý kiến của bạn..." required></textarea>
-											@guest
-												<div class="invalid-feedback">Bạn phải đăng nhập để chia sẻ bình luận.</div>
-											@else
-												<div class="invalid-feedback">Nội dung bình luận không được bỏ trống.</div>
-											@endguest
-										</div>
-										<button class="btn btn-primary btn-sm" type="submit">Đăng bình luận</button>
-									</form>
+								<h2 class="h6 blog-entry-title"><a href="#">Global Travel and Vacations on a Tight Budget</a></h2>
+								<p class="fs-sm" style="text-align:justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim...</p>
+								<a class="btn-tag me-2 mb-2" href="#">Personal finance</a>
+							</div>
+							<div class="card-footer d-flex align-items-center fs-xs">
+								<a class="blog-entry-meta-link" href="#">
+									<div class="blog-entry-author-ava"><img src="img/03.jpg" /></div>Emma Gallaher
+								</a>
+								<div class="ms-auto text-nowrap">
+									<a class="blog-entry-meta-link text-nowrap" href="#">Aug 15</a>
+									<span class="blog-entry-meta-divider mx-2"></span>
+									<a class="blog-entry-meta-link text-nowrap" href="#"><i class="ci-eye"></i>8</a>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="bg-secondary py-5">
-		<div class="container py-3">
-			<h2 class="h4 text-center pb-4">Bài viết cùng chuyên mục</h2>
-			<div class="tns-carousel">
-				@php
-					function LayHinhDauTien($strNoiDung)
-					{
-						$first_img = '';
-						ob_start();
-						ob_end_clean();
-						$output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $strNoiDung, $matches);
-
-						if(empty($output))
-							return asset('public/img/noimage.png');
-						else
-							return str_replace('&amp;', '&', $matches[1][0]);
-					}
-				@endphp
-				<div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 2, &quot;controls&quot;: false, &quot;autoHeight&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 20},&quot;900&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 20}, &quot;1100&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 30}}}">
-					@foreach($baivietcungchuyemuc as $value)
-						<article>
-							<a class="blog-entry-thumb mb-3" href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->ChuDe->tenchude_slug, 'tieude_slug' => $value->tieude_slug . '-' . $value->id . '.html']) }}">
-								<img src="{{ LayHinhDauTien($value->noidung) }}" />
+					</article>
+					<article class="masonry-grid-item">
+						<div class="card">
+							<a class="blog-entry-thumb" href="#">
+								<img class="card-img-top" src="img/02.jpg" />
 							</a>
-							<div class="d-flex align-items-center fs-sm mb-2">
-								<a class="blog-entry-meta-link" href="#user">bởi {{ $value->NguoiDung->name }}</a>
-								<span class="blog-entry-meta-divider"></span>
-								<a class="blog-entry-meta-link" href="#date">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $value->created_at)->format('d/m/Y') }}</a>
+							<div class="card-body">
+								<h2 class="h6 blog-entry-title"><a href="#">Global Travel and Vacations on a Tight Budget</a></h2>
+								<p class="fs-sm" style="text-align:justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim...</p>
+								<a class="btn-tag me-2 mb-2" href="#">Personal finance</a>
 							</div>
-							<h3 class="h6 blog-entry-title">
-								<a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->ChuDe->tenchude_slug, 'tieude_slug' => $value->tieude_slug . '-' . $value->id . '.html']) }}">
-									{{ $value->tieude }}
+							<div class="card-footer d-flex align-items-center fs-xs">
+								<a class="blog-entry-meta-link" href="#">
+									<div class="blog-entry-author-ava"><img src="img/03.jpg" /></div>Emma Gallaher
 								</a>
-							</h3>
-						</article>
-					@endforeach
+								<div class="ms-auto text-nowrap">
+									<a class="blog-entry-meta-link text-nowrap" href="#">Aug 15</a>
+									<span class="blog-entry-meta-divider mx-2"></span>
+									<a class="blog-entry-meta-link text-nowrap" href="#"><i class="ci-eye"></i>8</a>
+								</div>
+							</div>
+						</div>
+					</article>
+					<article class="masonry-grid-item">
+						<div class="card">
+							<a class="blog-entry-thumb" href="#">
+								<img class="card-img-top" src="img/02.jpg" />
+							</a>
+							<div class="card-body">
+								<h2 class="h6 blog-entry-title"><a href="#">Global Travel and Vacations on a Tight Budget</a></h2>
+								<p class="fs-sm" style="text-align:justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim...</p>
+								<a class="btn-tag me-2 mb-2" href="#">Personal finance</a>
+							</div>
+							<div class="card-footer d-flex align-items-center fs-xs">
+								<a class="blog-entry-meta-link" href="#">
+									<div class="blog-entry-author-ava"><img src="img/03.jpg" /></div>Emma Gallaher
+								</a>
+								<div class="ms-auto text-nowrap">
+									<a class="blog-entry-meta-link text-nowrap" href="#">Aug 15</a>
+									<span class="blog-entry-meta-divider mx-2"></span>
+									<a class="blog-entry-meta-link text-nowrap" href="#"><i class="ci-eye"></i>8</a>
+								</div>
+							</div>
+						</div>
+					</article>
 				</div>
+				<hr class="mb-4">
+				
+				<nav class="d-flex justify-content-between pt-2" aria-label="Page navigation">
+					<ul class="pagination">
+						<li class="page-item"><a class="page-link" href="#"><i class="ci-arrow-left me-2"></i>Prev</a></li>
+					</ul>
+					<ul class="pagination">
+						<li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">4</a></li>
+						<li class="page-item"><a class="page-link" href="#">5</a></li>
+					</ul>
+					<ul class="pagination">
+						<li class="page-item"><a class="page-link" href="#" aria-label="Next">Next<i class="ci-arrow-right ms-2"></i></a></li>
+					</ul>
+				</nav>
 			</div>
 		</div>
-	</div>
-@endforeach
+	</main>
+	@endsection	
+	
