@@ -50,9 +50,26 @@ Route::name('frontend.')->group(function () {
     Route::get('/lien-he', [HomeController::class, 'getLienHe'])->name('lienhe');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/', function () {
-    return view('welcome');
+// Trang khách hàng
+Route::get('/khach-hang/dang-ky', [HomeController::class, 'getDangKy'])->name('user.dangky');
+Route::get('/khach-hang/dang-nhap', [HomeController::class, 'getDangNhap'])->name('user.dangnhap');
+// Trang tài khoản khách hàng
+Route::prefix('khach-hang')->name('user.')->group(function () {
+    // Trang chủ
+    Route::get('/', [KhachHangController::class, 'getHome'])->name('home');
+    Route::get('/home', [KhachHangController::class, 'getHome'])->name('home');
+    // Đặt hàng
+
+    Route::get('/dat-hang', [KhachHangController::class, 'getDatHang'])->name('dathang');
+    Route::post('/dat-hang', [KhachHangController::class, 'postDatHang'])->name('dathang');
+    Route::get('/dat-hang-thanh-cong', [KhachHangController::class, 'getDatHangThanhCong'])->name('dathangthanhcong');
+    // Xem và cập nhật trạng thái đơn hàng
+    Route::get('/don-hang', [KhachHangController::class, 'getDonHang'])->name('donhang');
+    Route::get('/don-hang/{id}', [KhachHangController::class, 'getDonHang'])->name('donhang.chitiet');
+    Route::post('/don-hang/{id}', [KhachHangController::class, 'postDonHang'])->name('donhang.chitiet');
+    // Cập nhật thông tin tài khoản
+    Route::get('/ho-so-ca-nhan', [KhachHangController::class, 'getHoSoCaNhan'])->name('hosocanhan');
+    Route::post('/ho-so-ca-nhan', [KhachHangController::class, 'postHoSoCaNhan'])->name('hosocanhan');
+    // Đăng xuất
+    Route::post('/dang-xuat', [KhachHangController::class, 'postDangXuat'])->name('dangxuat');
 });
