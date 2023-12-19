@@ -17,7 +17,7 @@ class NguoiDungController extends Controller
     public function getDanhSach()
     {
         $nguoidung = NguoiDung::all();
-        return view('admin.nguoidung.danhsach', ['nguoidung' => $nguoidung]);
+        return view('admin.nguoidung.danhsach', compact('nguoidung'));
     }
     public function getThem()
     {
@@ -45,7 +45,7 @@ class NguoiDungController extends Controller
     public function getSua($id)
     {
         $nguoidung = NguoiDung::find($id);
-        return view('admin.nguoidung.sua', ['nguoidung' => $nguoidung]);
+        return view('admin.nguoidung.sua', compact('nguoidung'));
     }
     public function postSua(Request $request)
     {
