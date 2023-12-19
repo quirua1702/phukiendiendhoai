@@ -1,15 +1,10 @@
 <?php
-
 namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
 class DonHang_ChiTiet extends Model
 {
-    use HasFactory;
-    protected $table = 'donhangchitiet';
+protected $table = 'donhang_chitiet';
 public function DonHang(): BelongsTo
 {
 return $this->belongsTo(DonHang::class, 'donhang_id', 'id');
